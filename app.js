@@ -7,7 +7,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         var h = 600;
         var marginBottom = 30;
         var marginTop = 10;
-        var marginLeft = 90;
+        var marginLeft = 50;
         var marginRight = 10;
         var dataset =data.data;
         var minDate = new Date(data.from_date);
@@ -34,7 +34,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         var yAxis = d3.svg.axis()
                           .scale(yScale)
                           .orient('left')
-                          .ticks(20, '');
+                          .ticks(10, '');
                 
         var svg = d3.select('body')
                     .append('svg')
@@ -51,7 +51,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
             .attr('class', 'axis')
             .call(yAxis)  
             .selectAll('text')            
-            .style('transform','rotate(-90deg');
+            .attr("transform", "translate(" + marginLeft + ",0)");
         
         svg.append('g')
 
@@ -63,6 +63,6 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
            .attr('y', function(d){return yScale(d[1]);})
            .attr('width', barWidth)
            .attr('height', function(d){return height  - yScale(d[1]);})
-           .attr('fill', 'teal');
+           .attr('fill', 'teal').on('mouseover', function(d){console.log(d[0])});
     }
 })
