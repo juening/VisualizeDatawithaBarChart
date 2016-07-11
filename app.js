@@ -60,14 +60,17 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
             .attr("transform", "translate(0" + ', ' + height +')')
             .call(xAxis);
         
+svg.call(tip);
+        
         svg.append('g')
-            .attr('class', 'axis')
-            .call(yAxis)  
-            .selectAll('text')            
-            .attr('transform', 'translate(' + marginLeft + ',0)').style('text-anchor', 'end');
-        
-        svg.call(tip);
-        
+              .attr('class', 'axis')
+              .call(yAxis)
+              .append("text")
+              .attr('transform', 'rotate(-90)')
+              .attr('dy', '1em')
+              .style('text-anchor', 'end')
+              .text("US Gross Domestic Product");
+
         svg.append('g')
             .selectAll('rect')
            .data(dataset)
@@ -80,7 +83,9 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
            .attr('height', function(d){return height  - yScale(d[1]);})
            .attr('fill', 'teal')
            .on('mouseover', tip.show)
-           .on('mouseout', tip.hide);        
+           .on('mouseout', tip.hide); 
+        
+
 
     }
 })
