@@ -44,7 +44,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
 
         svg.append('g')
             .attr('class', 'axis')
-            .attr("transform", "translate("+(marginLeft - 1)+', '+(height + 1)+")")
+            .attr("transform", "translate(" + marginLeft+', ' + height +")")
             .call(xAxis);
         
         svg.append('g')
@@ -63,7 +63,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
            .attr('x', function(d, i){ return xScale(new Date(d[0]));})
            .attr('y', function(d){return yScale(d[1]);})
            .attr('width', barWidth)
-           .attr('height', function(d){return h - yScale(d[1]);})
+           .attr('height', function(d){return height  - yScale(d[1]);})
            .attr('fill', 'teal');
     }
 })
