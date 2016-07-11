@@ -3,7 +3,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         console.log(error);
     } else {
         console.log(data);
-        var w = 1000;
+        var w = 1100;
         var h = 600;
         var marginBottom = 30;
         var marginTop = 10;
@@ -41,7 +41,9 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         var svg = d3.select('body')
                     .append('svg')
                     .attr('width', w)
-                    .attr('height', h).append('g');
+                    .attr('height', h)
+                    .append('g')
+                    .attr('transform', 'translate(' + (marginLeft) + ',' + marginTop + ')');
         
         var tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -62,7 +64,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
             .attr('class', 'axis')
             .call(yAxis)  
             .selectAll('text')            
-            .attr("transform", "translate(" + marginLeft + ",0)").style('text-anchor', 'end');
+            .attr('transform', 'translate(' + marginLeft + ',0)').style('text-anchor', 'end');
         
         svg.call(tip);
         
@@ -78,8 +80,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
            .attr('height', function(d){return height  - yScale(d[1]);})
            .attr('fill', 'teal')
            .on('mouseover', tip.show)
-           .on('mouseout', tip.hide);
-        
+           .on('mouseout', tip.hide);        
 
     }
 })
