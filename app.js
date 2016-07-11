@@ -17,6 +17,8 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         var height = h - marginBottom - marginTop;
         var barWidth = Math.floor(width / dataset.length);
         
+        var monthsArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        
         var xScale = d3.time.scale()
                              .domain([minDate,maxDate])
                              .range([0, width]);
@@ -40,7 +42,15 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
                     .append('svg')
                     .attr('width', w)
                     .attr('height', h);
-        
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .html(function(d) {
+                var currentDate = new Date(d[0]);
+                var currentYear = currentDate.getFullYear();
+                var currentMonth = monthsArr[currentDate.getMonth()];
+                var currentGDP = d[1];
+                return "<p>" + currentGDP + " Billions</p><span>" + currentYear + " - " + currentMonth + "</span>";
+              });
 
         svg.append('g')
             .attr('class', 'axis')
@@ -53,8 +63,9 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
             .selectAll('text')            
             .attr("transform", "translate(" + marginLeft + ",0)");
         
+        svg.call(tip);
+        
         svg.append('g')
-
             .selectAll('rect')
            .data(dataset)
            .enter()
@@ -63,6 +74,8 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
            .attr('y', function(d){return yScale(d[1]);})
            .attr('width', barWidth)
            .attr('height', function(d){return height  - yScale(d[1]);})
-           .attr('fill', 'teal').on('mouseover', function(d){console.log(d[0])});
+           .attr('fill', 'teal').on('mouseover', tip.show).on('mouseout', tip.hide);
+        
+
     }
 })
