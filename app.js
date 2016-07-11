@@ -41,7 +41,8 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         var svg = d3.select('body')
                     .append('svg')
                     .attr('width', w)
-                    .attr('height', h);
+                    .attr('height', h).append('g');
+        
         var tip = d3.tip()
             .attr('class', 'd3-tip')
             .html(function(d) {
@@ -49,19 +50,19 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
                 var currentYear = currentDate.getFullYear();
                 var currentMonth = monthsArr[currentDate.getMonth()];
                 var currentGDP = d[1];
-                return "<p>" + currentGDP + " Billions</p><span>" + currentYear + " - " + currentMonth + "</span>";
+                return '<p>' + currentGDP + ' Billions</p><span>' + currentYear + ' - ' + currentMonth + '</span>';
               });
 
         svg.append('g')
             .attr('class', 'axis')
-            .attr("transform", "translate(0" + ', ' + height +")")
+            .attr("transform", "translate(0" + ', ' + height +')')
             .call(xAxis);
         
         svg.append('g')
             .attr('class', 'axis')
             .call(yAxis)  
             .selectAll('text')            
-            .attr("transform", "translate(" + marginLeft + ",0)");
+            .attr("transform", "translate(" + marginLeft + ",0)").style('text-anchor', 'end');
         
         svg.call(tip);
         
@@ -70,11 +71,14 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
            .data(dataset)
            .enter()
            .append('rect')
+           .attr('class', 'bar')
            .attr('x', function(d, i){ return xScale(new Date(d[0]));})
            .attr('y', function(d){return yScale(d[1]);})
            .attr('width', barWidth)
            .attr('height', function(d){return height  - yScale(d[1]);})
-           .attr('fill', 'teal').on('mouseover', tip.show).on('mouseout', tip.hide);
+           .attr('fill', 'teal')
+           .on('mouseover', tip.show)
+           .on('mouseout', tip.hide);
         
 
     }
