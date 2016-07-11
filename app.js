@@ -7,7 +7,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         var h = 600;
         var marginBottom = 30;
         var marginTop = 10;
-        var marginLeft = 60;
+        var marginLeft = 90;
         var marginRight = 10;
         var dataset =data.data;
         var minDate = new Date(data.from_date);
@@ -15,7 +15,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         
         var width = w - marginLeft- marginRight;
         var height = h - marginBottom - marginTop;
-        var barWidth = Math.ceil(width / dataset.length);
+        var barWidth = Math.floor(width / dataset.length);
         
         var xScale = d3.time.scale()
                              .domain([minDate,maxDate])
@@ -44,15 +44,14 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
 
         svg.append('g')
             .attr('class', 'axis')
-            .attr("transform", "translate(" + marginLeft+', ' + height +")")
+            .attr("transform", "translate(0" + ', ' + height +")")
             .call(xAxis);
         
         svg.append('g')
             .attr('class', 'axis')
-            .attr('transform', 'translate(0,' + marginLeft + ')')
             .call(yAxis)  
-            .selectAll('text')
-            .style('transform','rotate(-90deg)');
+            .selectAll('text')            
+            .style('transform','rotate(-90deg');
         
         svg.append('g')
 
