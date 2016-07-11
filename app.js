@@ -13,12 +13,13 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         var minDate = new Date(data.from_date);
         var maxDate = new Date(data.to_date);
         
-        var width = w- marginLeft- marginRight;
+        var width = w - marginLeft- marginRight;
         var height = h - marginBottom - marginTop;
+        var barWidth = Math.ceil(width / dataset.length);
         
-        var xScale = d3.scale.ordinal()
-                             .domain(d3.range(dataset.length))
-                             .rangeRoundBands([0, width],0.1);
+        var xScale = d3.time.scale()
+                             .domain([minDate,maxDate])
+                             .range([0, width]);
         
         var yScale = d3.scale.linear()
                              .domain([0, d3.max(dataset, function(d){return d[1];})])
@@ -32,33 +33,37 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
         
         var yAxis = d3.svg.axis()
                           .scale(yScale)
-                          .orient("left")
-                          .ticks(10, "");
+                          .orient('left')
+                          .ticks(20, '');
                 
         var svg = d3.select('body')
                     .append('svg')
-                    .attr('width', width)
-                    .attr('height', height);
+                    .attr('width', w)
+                    .attr('height', h);
         
 
         svg.append('g')
             .attr('class', 'axis')
-            .attr("transform", "translate(0," + height + ")")
+            .attr("transform", "translate("+(marginLeft - 1)+', '+(height + 1)+")")
             .call(xAxis);
         
         svg.append('g')
             .attr('class', 'axis')
-            .attr("transform", "translate(0,"  + ")")
-            .call(yAxis);
+            .attr('transform', 'translate(0,' + marginLeft + ')')
+            .call(yAxis)  
+            .selectAll('text')
+            .style('transform','rotate(-90deg)');
         
-        svg.selectAll('rect')
+        svg.append('g')
+
+            .selectAll('rect')
            .data(dataset)
            .enter()
            .append('rect')
-           .attr('x', function(d, i){ return i * w / dataset.length;})
+           .attr('x', function(d, i){ return xScale(new Date(d[0]));})
            .attr('y', function(d){return yScale(d[1]);})
-           .attr('width', function(d){return w/dataset.length;})
-           .attr('height', function(d){var barHeight = d[1]; return height -yScale( barHeight);})
+           .attr('width', barWidth)
+           .attr('height', function(d){return h - yScale(d[1]);})
            .attr('fill', 'teal');
     }
 })
